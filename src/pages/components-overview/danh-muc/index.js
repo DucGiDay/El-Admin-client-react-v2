@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 // material-ui
-import { Button } from '@mui/material';
+import { Grid } from '@mui/material';
 
 // project import
 import MainCard from 'components/MainCard';
 import TableDanhMuc from 'components/danh-muc/TableDanhMuc';
+import DropdownDanhMuc from 'components/danh-muc/DropdownDanhMuc';
 
 function DanhMuc() {
   const [listDangKienThuc, setListDangKienThuc] = useState([])
@@ -15,15 +16,12 @@ function DanhMuc() {
   const [idDonViKienThuc, setIdDonViKienThuc] = useState('')
 
   async function getAllDKT() {
-    console.log(1)
     await axios
     .get(`http://localhost:4000/api/dkt`)
       .then((response) => {
-        console.log(2)
         setListDangKienThuc(response.data)
       })
     .catch(error => console.log(error))
-    console.log(3)
   }
   async function getAllDVKT() {
     await axios
@@ -56,10 +54,12 @@ function DanhMuc() {
     return moTaChiTiet
   })
 
-  const test = () => {
-    console.log('listDangKienThucObject', listDangKienThucObject)
-    console.log('listDonViKienThucObject', listDonViKienThucObject)
-    console.log('listMoTaChiTietObject', listMoTaChiTietObject)
+  const getIdDangKienThucFromDropDown = (idDangKienThuc) => {
+    setIdDangKienThuc(idDangKienThuc);
+    setIdDonViKienThuc('')
+  }
+  const getIdDonViKienThucFromDropDown = (idDonViKienThuc) => {
+    setIdDonViKienThuc(idDonViKienThuc);
   }
 
   const tableDanhMuc = () => {
@@ -75,8 +75,21 @@ function DanhMuc() {
     return(<TableDanhMuc props ={listMoTaChiTietByIdDVKT} danhMuc={ 'Mô Tả Chi Tiết' }/>)
   }
 
+  const dropDown = () => {
+    const listDonViKienThucByIdDKT = listDonViKienThucObject.filter(item => item.Id_category_dkt === idDangKienThuc)
+    return (<Grid container spacing={2}>
+      <Grid item xs={6}>
+        <DropdownDanhMuc props={listDangKienThucObject} danhMuc = {"Dạng Kiến Thức"} propsFunc={getIdDangKienThucFromDropDown} />
+      </Grid>
+      <Grid item xs={6}>
+        <DropdownDanhMuc props={listDonViKienThucByIdDKT} danhMuc = {"Đơn Vị Kiến Thức"} propsFunc={getIdDonViKienThucFromDropDown} />
+      </Grid>
+    </Grid>)
+  }
+
   return (
     <MainCard title="">
+      {dropDown()}
       {tableDanhMuc()}
     </MainCard>
   )

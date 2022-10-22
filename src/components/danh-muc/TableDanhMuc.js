@@ -7,6 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import ButtonDelete from 'components/app/ButtonDelete';
+import ButtonEdit from 'components/app/ButtonEdit';
 
 const columns = [
   { id: 'stt', label: 'STT', minWidth: 70 },
@@ -38,7 +40,7 @@ const columns = [
 ];
 
 function createData({stt, name, id, slug, optionDanhMuc}) {
-  return { stt, id, name, slug, edit: "Edit", delete: "Delete" };
+  return { stt, id, name, slug, edit: <ButtonEdit props = {id} danhMuc={ optionDanhMuc } />, delete: <ButtonDelete props={ id } danhMuc={ optionDanhMuc }/> };
 }
 
 export default function TableDanhMuc(props) {
