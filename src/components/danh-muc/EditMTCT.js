@@ -1,43 +1,74 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MainCard from 'components/MainCard'
 import axios from 'axios';
 import { Button, Input, notification } from 'antd';
-import { Grid } from '@mui/material';
-import DropdownDanhMucv2 from './DropdownDanhMuc-v2';
-
-function CreateMTCT() {
-  const [name, setName] = useState('')
-  const [slug, setSlug] = useState('')
+import DropdownDanhMucV2 from './DropdownDanhMuc-v2';
+import { Grid } from '../../../node_modules/@mui/material/index';
+function EditMTCT({url}) {
+  const [MTCT, setMTCT] = useState({})
   const [listDangKienThuc, setListDangKienThuc] = useState([])
   const [listDonViKienThuc, setListDonViKienThuc] = useState([])
   const [idDangKienThuc, setIdDangKienThuc] = useState('')
   const [idDonViKienThuc, setIdDonViKienThuc] = useState('')
   useEffect(() => {
-    getDKT()
-    getDVKT() 
-  }, [])
-  async function getDKT() {
+    listDKT()
+    listDVKT()
+    getMTCT()
+  }, []);
+
+  async function listDKT() {
     await axios
       .get(`http://localhost:4000/api/dkt`)
       .then((response) => setListDangKienThuc(response.data))
       .catch(error => console.log(error))
   }
-  async function getDVKT() {
+  async function listDVKT() {
     await axios
-      .get(`http://localhost:4000/api/dVkt`)
+      .get(`http://localhost:4000/api/dvkt`)
       .then((response) => setListDonViKienThuc(response.data))
       .catch(error => console.log(error))
   }
+  async function getMTCT() {
+    await axios
+      .get(url)
+      .then((response) => {
+        setMTCT(response.data)
+        setIdDonViKienThuc(response.data.Id_category_dvkt)
+      })
+      .catch(error => console.log(error))
+  }
+  let defaultDKT = ""
+  let defaultDVKT = ""
   const listDangKienThucObject = listDangKienThuc.map((response) => {
     const dangKienThuc = JSON.parse(response)
     return dangKienThuc
   })
   const listDonViKienThucObject = listDonViKienThuc.map((response) => {
     const donViKienThuc = JSON.parse(response)
+    if (donViKienThuc.id === idDonViKienThuc) {
+      defaultDVKT = donViKienThuc.id
+      defaultDKT = donViKienThuc.Id_category_dkt
+    }
     return donViKienThuc
   })
-  const createDVKT = () => {
-    if (!idDangKienThuc.length) {
+
+  const handleChangeName = (event) => {
+    setMTCT({
+      Name: event.target.value,
+      Slug: MTCT.Slug,
+      Id_category_dvkt: MTCT.Id_category_dvkt
+    })
+  }
+  const handleChangeSlug = (event) => {
+    setMTCT({
+      Name: MTCT.Name,
+      Slug: event.target.value,
+      Id_category_dvkt: MTCT.Id_category_dvkt
+    })
+  }
+
+  const updateMTCT = () => {
+    if (!idDangKienThuc.length && !defaultDKT.length) {
       const noti = {
         type: 'error',
         message: 'Lựa chọn dạng kiến thức là bắt buộc',
@@ -53,35 +84,38 @@ function CreateMTCT() {
       }
       return openNotificationWithIcon(noti)
     }
-    if (!name.length) {
+    if (!MTCT.Name.length) {
       const noti = {
         type: 'error',
-        message: 'Tên mô tả chi tiết là bắt buộc',
-        description: 'Vui lòng nhập tên mô tả chi tiết'
+        message: 'Tên dạng kiến thức là bắt buộc',
+        description: 'Vui lòng nhập Tên dạng kiến thức'
       }
       return openNotificationWithIcon(noti)
     }
-    const MTCT = {
-      Id_category_DVKT: idDonViKienThuc,
-      Name: name,
-      Slug: slug
-    }
+
+    setMTCT({
+      Name: MTCT.Name,
+      Slug: MTCT.Slug,
+      Id_category_dvkt: idDonViKienThuc
+    })
+
     const noti = {
       type: 'success',
-      message: 'Tạo thành công',
+      message: 'Lưu thành công',
     }
-    axios.post(`http://localhost:4000/api/chi-tiet`, MTCT)
+    axios.put(url, MTCT)
       .then((res) => {
         openNotificationWithIcon(noti)
       })
-      .catch(err => openNotificationWithIcon({ type: 'error', title: err}))
-  };
-  const handleChangeName = (event) => {
-    setName(event.target.value)
   }
-  const handleChangeSlug = (event) => {
-    setSlug(event.target.value)
+
+  const getIdDangKienThucFromDropDown = (id) => {
+    setIdDangKienThuc(id)
   }
+  const getIdDonViKienThucFromDropDown = (id) => {
+    setIdDonViKienThuc(id)
+  }
+
   const openNotificationWithIcon = ({type, message, description}) => {
     notification[type]({ 
       message,
@@ -92,40 +126,33 @@ function CreateMTCT() {
       },
     });
   };
-  
-  const getIdDangKienThucFromDropDown = (id) => {
-    setIdDangKienThuc(id)
-  }
-  const getIdDonViKienThucFromDropDown = (id) => {
-    setIdDonViKienThuc(id)
-  }
 
   const dropDown = () => {
     const listDonViKienThucByIdDKT = listDonViKienThucObject.filter(item => item.Id_category_dkt === idDangKienThuc)
     return (<Grid container spacing={2}>
       <Grid item xs={6}>
-        <DropdownDanhMucv2 listDanhMuc={listDangKienThucObject} title={"Dạng kiến thức"} getIdDanhMuc={getIdDangKienThucFromDropDown} />
+        <DropdownDanhMucV2 listDanhMuc={listDangKienThucObject} title={"Dạng kiến thức"} getIdDanhMuc={getIdDangKienThucFromDropDown} defaultDanhMuc={defaultDKT} />
       </Grid>
       <Grid item xs={6}>
-        <DropdownDanhMucv2 listDanhMuc={listDonViKienThucByIdDKT} title={"Đơn vị kiến thức"} getIdDanhMuc={getIdDonViKienThucFromDropDown}/>
+        <DropdownDanhMucV2 listDanhMuc={listDonViKienThucByIdDKT} title={"Đơn vị kiến thức"} getIdDanhMuc={getIdDonViKienThucFromDropDown} defaultDanhMuc={defaultDVKT} />
       </Grid>
     </Grid>)
   }
   return (
-    <MainCard title="Tạo mô tả chi tiết">
+    <MainCard title="Sửa mô tả chi tiết">
       {dropDown()}
       <br />
       <label htmlFor="">Name <span style={{color: 'red'}}>*</span></label>
-      <Input placeholder="*Nhập tên mô tả chi tiết" value={name} onChange={handleChangeName} required/>
+      <Input placeholder="*Nhập tên mô tả chi tiết" value={MTCT.Name} onChange={handleChangeName} required/>
       <br />
       <br />
       <label htmlFor="" >Slug</label>
-      <Input placeholder="Nhập Slug" value={slug} onChange={handleChangeSlug} />
+      <Input placeholder="Nhập Slug" value={MTCT.Slug} onChange={handleChangeSlug} />
       <br />
       <br />
-      <Button type="primary" onClick={createDVKT}>Tạo</Button>
+      <Button type="primary" onClick={updateMTCT}>Lưu</Button>
     </MainCard>
   )
 }
 
-export default CreateMTCT
+export default EditMTCT

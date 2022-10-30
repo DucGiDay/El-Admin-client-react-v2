@@ -4,6 +4,7 @@ import { lazy } from 'react';
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
 import CreateDanhMuc from 'pages/components-overview/danh-muc/CreateDanhMuc';
+import EditDanhMuc from 'pages/components-overview/danh-muc/EditDanhMuc';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -34,6 +35,18 @@ const MainRoutes = {
         {
             path: 'api/danh-muc/create',
             element: <CreateDanhMuc />
+        },
+        {
+            path: 'api/danh-muc/dkt/:id',
+            element: <EditDanhMuc danhMuc={ 'Dạng Kiến Thức' }/>
+        },
+        {
+            path: 'api/danh-muc/dvkt/:id',
+            element: <EditDanhMuc danhMuc={ 'Đơn Vị Kiến Thức' }/>
+        },
+        {
+            path: 'api/danh-muc/chi-tiet/:id',
+            element: <EditDanhMuc danhMuc={ 'Mô Tả Chi Tiết' }/>
         },
         {
             path: 'api/cau-hoi',

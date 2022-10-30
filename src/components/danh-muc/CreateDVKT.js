@@ -40,7 +40,7 @@ function CreateDVKT() {
       return openNotificationWithIcon(noti)
     }
     const DVKT = {
-      Id_Category_DKT: idDangKienThuc,
+      Id_category_dkt: idDangKienThuc,
       Name: name,
       Slug: slug
     }
