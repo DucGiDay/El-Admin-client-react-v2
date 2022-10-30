@@ -3,8 +3,6 @@ import { lazy } from 'react';
 // project import
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
-import CreateDanhMuc from 'pages/components-overview/danh-muc/CreateDanhMuc';
-import EditDanhMuc from 'pages/components-overview/danh-muc/EditDanhMuc';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -13,8 +11,8 @@ const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
 const SamplePage = Loadable(lazy(() => import('pages/extra-pages/SamplePage')));
 
 // // render - utilities
-// const Typography = Loadable(lazy(() => import('pages/components-overview/Typography')));
-// const Color = Loadable(lazy(() => import('pages/components-overview/Color')));
+const CreateDanhMuc = Loadable(lazy(() => import('pages/components-overview/danh-muc/CreateDanhMuc')));
+const EditDanhMuc = Loadable(lazy(() => import('pages/components-overview/danh-muc/EditDanhMuc')));
 const DanhMuc = Loadable(lazy(() => import('pages/components-overview/danh-muc/')));
 const CauHoi = Loadable(lazy(() => import('pages/components-overview/cau-hoi/')));
 
@@ -47,6 +45,10 @@ const MainRoutes = {
         {
             path: 'api/danh-muc/chi-tiet/:id',
             element: <EditDanhMuc danhMuc={ 'Mô Tả Chi Tiết' }/>
+        },
+        {
+            path: 'api/cau-hoi',
+            element: <CauHoi />
         },
         {
             path: 'api/cau-hoi',
