@@ -18,6 +18,7 @@ function DropdownDanhMucV2(props) {
       filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
       defaultValue={defaultDanhMuc}
     >
+      <Option value="" style={{opacity: "0.5"}}>{title }</Option>
       {listDanhMuc.map((item, index) => {
         return  <Option value={item.id} key={index}>{item.Name}</Option>
       })}
