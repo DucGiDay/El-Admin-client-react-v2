@@ -82,7 +82,7 @@ export default function TableCauHoi(props) {
             content_Question: cauHoi.Content_Question ? cauHoi.Content_Question: cauHoi.Question_Main,
             date: cauHoi.Date,
             don_kep: cauHoi.Don_Kep,
-            level: cauHoi.Level,
+            level: cauHoi.Don_Kep === 1? cauHoi.Level_Main : cauHoi.Level,
             option_ans: cauHoi.Option_ans,
             true_ans: cauHoi.True_ans,
             sub_question: cauHoi.Sub_Question ? cauHoi.Sub_Question : null
