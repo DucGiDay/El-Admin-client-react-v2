@@ -17,48 +17,57 @@ const CauHoi = () => {
     const [idMoTaChiTiet, setIdMoTaChiTiet] = useState('')
     const [level, setlevel] = useState('')
 
-    useEffect(() => {
-        axios
+    async function getAllDKT() {
+        await axios
         .get(`http://localhost:4000/api/dkt`)
-        .then((response) => setListDangKienThuc(response.data))
+        .then((response) => {
+            setListDangKienThuc(response.data)
+        })
         .catch(error => console.log(error))
-        
-        axios
+    }
+    async function getAllDVKT() {
+        await axios
         .get(`http://localhost:4000/api/dvkt`)
         .then((response) => setListDonViKienThuc(response.data))
         .catch(error => console.log(error))
-        axios
+    }
+    async function getAllMTCT() {
+        await axios
         .get(`http://localhost:4000/api/chi-tiet`)
         .then((response) => setListMoTaChiTiet(response.data))
         .catch(error => console.log(error))
-
-        axios
+    }
+    async function getAllCH() {
+        await axios
         .get(`http://localhost:4000/api/both-cau-hoi`)
-            .then((response) => setListCauHoi(response.data))
+        .then((response) => setListCauHoi(response.data))
         .catch(error => console.log(error))
+    }
+    
+    useEffect(() => {
+        getAllDKT()
+        getAllDVKT()
+        getAllMTCT()
+        getAllCH()
     }, []);
     const listCauHoiObject = listCauHoi.map((response) => {
         const cauHoi = JSON.parse(response)
         return cauHoi
     })
     const listDangKienThucObject = listDangKienThuc.map((response) => {
-        const responseObject = response.split(' - id: ')
-        const dangKienThuc = JSON.parse(responseObject[0])
-        dangKienThuc.id = responseObject[1]
+        const dangKienThuc = JSON.parse(response)
         return dangKienThuc
     })
     const listDonViKienThucObject = listDonViKienThuc.map((response) => {
-        const responseObject = response.split(' - id: ')
-        const donViKienThuc = JSON.parse(responseObject[0])
-        donViKienThuc.id = responseObject[1]
+        const donViKienThuc = JSON.parse(response)
         return donViKienThuc
     })
     const listMoTaChiTietObject = listMoTaChiTiet.map((response) => {
-        const responseObject = response.split(' - id: ')
-        const moTaChiTiet = JSON.parse(responseObject[0])
-        moTaChiTiet.id = responseObject[1]
+        const moTaChiTiet = JSON.parse(response)
         return moTaChiTiet
     })
+    
+
     const getIdDangKienThucFromDropDown = (idDangKienThuc) => {
         setIdDangKienThuc(idDangKienThuc);
     }
@@ -106,6 +115,9 @@ const CauHoi = () => {
     const dropDown = () => {
         const listDonViKienThucByIdDKT = listDonViKienThucObject.filter(item => item.Id_category_dkt === idDangKienThuc)
         const listMoTaChiTietByIdDVKT = listMoTaChiTietObject.filter(item => item.Id_category_dvkt === idDonViKienThuc)
+        console.log("listMoTaChiTietObject",listMoTaChiTietObject)
+        console.log("listMoTaChiTietByIdDVKT",listMoTaChiTietByIdDVKT)
+
         const levels = ['1', '2', '3']
         return (<Grid container spacing={3}>
             <Grid item xs={3}>

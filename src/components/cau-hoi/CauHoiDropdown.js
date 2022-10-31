@@ -4,6 +4,7 @@ import { InputLabel, MenuItem, FormControl, Select} from '@mui/material'
 
 export default function DanhMucDropdown(props) {
     const listDanhMuc = props.props
+    
     const optionDanhMuc = props.danhMuc
     const getValue = props.propsFunc
     const defaultValue = props.defaultValue

@@ -4,6 +4,7 @@ import { lazy } from 'react';
 import Loadable from 'components/Loadable';
 import MainLayout from 'layout/MainLayout';
 import CreateDanhMuc from 'pages/components-overview/danh-muc/CreateDanhMuc';
+import CreateCauHoi from 'pages/components-overview/cau-hoi/CreateCauHoi';
 
 // render - dashboard
 const DashboardDefault = Loadable(lazy(() => import('pages/dashboard')));
@@ -38,6 +39,10 @@ const MainRoutes = {
         {
             path: 'api/cau-hoi',
             element: <CauHoi />
+        },
+        {
+            path: 'api/cau-hoi/create',
+            element: <CreateCauHoi />
         },
         {
             path: 'dashboard',
