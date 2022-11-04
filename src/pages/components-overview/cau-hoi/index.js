@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import TableCauHoi from 'components/cau-hoi/TableCauHoi'
 import axios from 'axios';
 import MainCard from 'components/MainCard';
-import LevelDropdown from 'components/cau-hoi/LevelDropdown';
-import CauHoiDropdown from 'components/cau-hoi/CauHoiDropdown';
 import Grid from '@mui/material/Grid';
+import DropdownDanhMucV2 from 'components/danh-muc/DropdownDanhMuc-v2';
 
 
 const CauHoi = () => {
@@ -105,23 +104,44 @@ const CauHoi = () => {
 
     const dropDown = () => {
         const listDonViKienThucByIdDKT = listDonViKienThucObject.filter(item => item.Id_category_dkt === idDangKienThuc)
-        const listMoTaChiTietByIdDVKT = listMoTaChiTietObject.filter(item => item.Id_category_dvkt === idDonViKienThuc)
-        const levels = ['1', '2', '3']
-        return (<Grid container spacing={3}>
-            <Grid item xs={3}>
-                <CauHoiDropdown props={listDangKienThucObject} danhMuc = {"Dạng Kiến Thức"} propsFunc={getIdDangKienThucFromDropDown} />
-            </Grid>
-            <Grid item xs={3}>
-                <CauHoiDropdown props={listDonViKienThucByIdDKT} danhMuc = {"Đơn Vị Kiến Thức"} propsFunc={getIdDonViKienThucFromDropDown} />
-            </Grid>
-            <Grid item xs={3}>
-                <CauHoiDropdown props={listMoTaChiTietByIdDVKT} danhMuc = {"Mô Tả Chi Tiết"} propsFunc={getIdMoTaChiTietFromDropDown} />
-            </Grid>
-            <Grid item xs={3}>
-                <LevelDropdown levels={levels} option = {"Level"} propsFunc={getlevelFromDropDown} />
-            </Grid>
+        const listMTCTByIdDVKT = listMoTaChiTietObject.filter(item => item.Id_category_dvkt === idDonViKienThuc)
+        const levels = [
+          {
+            id: '1',
+            Name: '1'
+          },
+          {
+            id: '2',
+            Name: '2'
+          },
+          {
+            id: '3',
+            Name: '3'
+          },
+          {
+            id: '4',
+            Name: '4'
+          },
+          {
+            id: '5',
+            Name: '5'
+          },
+        ]
+        return (<Grid container spacing={2}>
+          <Grid item xs={3}>
+            <DropdownDanhMucV2 listDanhMuc={listDangKienThucObject} title={"Dạng kiến thức"} getIdDanhMuc={getIdDangKienThucFromDropDown} />
+          </Grid>
+          <Grid item xs={3}>
+            <DropdownDanhMucV2 listDanhMuc={listDonViKienThucByIdDKT} title={"Đơn vị kiến thức"} getIdDanhMuc={getIdDonViKienThucFromDropDown}/>
+          </Grid>
+          <Grid item xs={3}>
+            <DropdownDanhMucV2 listDanhMuc={listMTCTByIdDVKT} title={"Mô tả chỉ tiết"} getIdDanhMuc={getIdMoTaChiTietFromDropDown}/>
+          </Grid>
+          <Grid item xs={3}>
+            <DropdownDanhMucV2 listDanhMuc={levels} title={"Level"} getIdDanhMuc={getlevelFromDropDown}/>
+          </Grid>
         </Grid>)
-    }
+      }
 
     return (
         <MainCard>
