@@ -15,7 +15,8 @@ const CreateDanhMuc = Loadable(lazy(() => import('pages/components-overview/danh
 const EditDanhMuc = Loadable(lazy(() => import('pages/components-overview/danh-muc/EditDanhMuc')));
 const DanhMuc = Loadable(lazy(() => import('pages/components-overview/danh-muc/')));
 const CauHoi = Loadable(lazy(() => import('pages/components-overview/cau-hoi/')));
-const CauHoiKep = Loadable(lazy(() => import('pages/components-overview/cau-hoi/CreateCauHoiKep')));
+const CreateCauHoiKep = Loadable(lazy(() => import('pages/components-overview/cau-hoi/CreateCauHoiKep')));
+const CreateCauHoi = Loadable(lazy(() => import('pages/components-overview/cau-hoi/CreateCauHoi')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -53,7 +54,11 @@ const MainRoutes = {
         },
         {
             path: 'api/cau-hoi-kep/create',
-            element: <CauHoiKep />
+            element: <CreateCauHoiKep />
+        },
+        {
+            path: 'api/cau-hoi/create',
+            element: <CreateCauHoi />
         },
         {
             path: 'dashboard',

@@ -37,7 +37,7 @@ function CauHoiConModal({number, getCauHoi}) {
         \"Content_Question\":\"${ques}\",
         \"Level\": \"${valueSelect}\",
         \"Option_ans\":[\"${ans1}\", \"${ans2}\", \"${ans3}\", \"${ans4}\"],
-        \"True_Ans\": \"${True_Ans}\"
+        \"True_ans\": \"${True_Ans}\"
       }]
     }`
     const cauHoi = JSON.parse(temp)
