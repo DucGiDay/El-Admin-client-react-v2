@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react'
 import axios from "axios"
 import { Button, Input, Radio, notification } from 'antd';
 import { Grid }from '@mui/material'
+import ReactQuill from "react-quill"
+import 'react-quill/dist/quill.snow.css'
 
 function CreateCauHoi() {
   const [listDangKienThuc, setListDangKienThuc] = useState([])
@@ -12,15 +14,15 @@ function CreateCauHoi() {
   const [idDangKienThuc, setIdDangKienThuc] = useState('')
   const [idDonViKienThuc, setIdDonViKienThuc] = useState('')
   const [idMoTaChiTiet, setIdMoTaChiTiet] = useState('')
-  const [question, setQuestion] = useState('')
+  const [question, setQuestion] = useState('undefined')
   const [slug, setSlug] = useState('')
   const [requirement, setRequirement] = useState('')
   const [valueRadio, setValueRadio] = useState(1);
   const [level, setLevel] = useState('')
-  const [ans1, setAns1] = useState('')
-  const [ans2, setAns2] = useState('')
-  const [ans3, setAns3] = useState('')
-  const [ans4, setAns4] = useState('')
+  const [ans1, setAns1] = useState('undefined')
+  const [ans2, setAns2] = useState('undefined')
+  const [ans3, setAns3] = useState('undefined')
+  const [ans4, setAns4] = useState('undefined')
   useEffect(() => {
     getDKT()
     getDVKT() 
@@ -71,21 +73,6 @@ function CreateCauHoi() {
 
   const getLevel = (level) => {
     setLevel(level)
-  }
-  const handleAns1 = (event) => {
-    setAns1(event.target.value)
-  }
-  const handleAns2 = (event) => {
-    setAns2(event.target.value)
-  }
-  const handleAns3 = (event) => {
-    setAns3(event.target.value)
-  }
-  const handleAns4 = (event) => {
-    setAns4(event.target.value)
-  }
-  const handleQuestion = (event) => {
-    setQuestion(event.target.value)
   }
   const handleSlug = (event) => {
     setSlug(event.target.value)
@@ -176,28 +163,60 @@ function CreateCauHoi() {
       <br />
       <br />
       <label htmlFor="">Câu hỏi<span style={{color: 'red'}}>*</span></label>
-      <Input placeholder="*Nhập nội dung câu hỏi" onChange={handleQuestion} required/>
+      {/* <Input placeholder="*Nhập nội dung câu hỏi" onChange={handleQuestion} required/> */}
+      <div>
+        <ReactQuill
+          theme='snow'
+          value={question}
+          onChange={setQuestion}
+          style={{minHeight: '100px'}}
+        />
+      </div>
       <br />
       <br />
 
       <MainCard title="Answer">
-        <Radio.Group onChange={onChangeRadio} value={valueRadio}>
-            <Radio value={1}>
-                <label htmlFor="" >Câu trả lời 1</label>
-                <Input onChange={handleAns1}/>
-            </Radio>
-            <Radio value={2}>
-                <label htmlFor="" >Câu trả lời 2</label>
-                <Input onChange={handleAns2}/>
-            </Radio>
-            <Radio value={3}>
-                <label htmlFor="" >Câu trả lời 3</label>
-                <Input onChange={handleAns3}/>
-            </Radio>
-            <Radio value={4}>
-                <label htmlFor="" >Câu trả lời 4</label>
-                <Input onChange={handleAns4}/>
-            </Radio>
+        <Radio.Group onChange={onChangeRadio} value={valueRadio} style={{columnCount: '2'}}>
+          <Radio value={1}>
+            <label htmlFor="" >Câu trả lời 1</label>
+            {/* <Input onChange={handleAns1}/> */}
+            <ReactQuill
+              theme='snow'
+              value={ans1}
+              onChange={setAns1}
+              style={{minHeight: '100px'}}
+            />
+          </Radio>
+          <Radio value={2}>
+            <label htmlFor="" >Câu trả lời 2</label>
+            {/* <Input onChange={handleAns2}/> */}
+            <ReactQuill
+              theme='snow'
+              value={ans2}
+              onChange={setAns2}
+              style={{minHeight: '100px'}}
+            />
+          </Radio>
+          <Radio value={3}>
+            <label htmlFor="" >Câu trả lời 3</label>
+            {/* <Input onChange={handleAns3}/> */}
+            <ReactQuill
+              theme='snow'
+              value={ans3}
+              onChange={setAns3}
+              style={{minHeight: '100px'}}
+            />
+          </Radio>
+          <Radio value={4}>
+            <label htmlFor="" >Câu trả lời 4</label>
+            {/* <Input onChange={handleAns4}/> */}
+            <ReactQuill
+              theme='snow'
+              value={ans4}
+              onChange={setAns4}
+              style={{minHeight: '100px'}}
+            />
+          </Radio>
         </Radio.Group>
       </MainCard>
 
